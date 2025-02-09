@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Diagnostics;
+using TankGame.PistaNetworkingLibrary;
 
 namespace PistaNetworkLibrary
 {
@@ -35,13 +36,11 @@ namespace PistaNetworkLibrary
                 .OrderBy(q => q.GetType().Name).ToArray();
 
             MyDebugger.WriteLine($"REGISTERING CLIENT PACKETS FROM [{assembly.FullName}]");
-            Debug.WriteLine($"REGISTERING CLIENT PACKETS FROM [{assembly.FullName}]");
             for (byte i = 0; i < types.Length; i++)
             {
                 var initPacket = Activator.CreateInstance(types[i]) as ClientPacket;
-                MyDebugger.WriteLine($"Registered client packet: [{clientPackets.Count},{initPacket.GetType().Name}]");
-                Debug.WriteLine($"Registered client packet: [{clientPackets.Count},{initPacket.GetType().Name}]");
-                clientPackets.Add(i, initPacket);
+                MyDebugger.WriteLine($"Registered client packet: [{clientPackets.Count},{initPacket.GetType().Name}]");               
+                //clientPackets.Add(i, initPacket);
             }
 
             types = assembly

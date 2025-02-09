@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Command
+namespace TankGame_Server.Command
 {
     public interface ICommand
     {

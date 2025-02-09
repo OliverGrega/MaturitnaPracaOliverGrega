@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TankGame.Networking.Packets.ClientPackets;
+using TankGame.PistaNetworkingLibrary.Packets.ServerPackets;
 
-namespace TankGame.Networking.Packets.ServerPackets
+namespace TankGame.PistaNetworkingLibrary.Packets.ServerPackets
 {
     public class WelcomeServerPacket : ServerPacket
     {
@@ -27,7 +27,7 @@ namespace TankGame.Networking.Packets.ServerPackets
             MyClient.instance.myId = _myId;
             MyDebugger.WriteLine(_msg);
 
-            MyClient.Send(new WelcomeClientPacket("Tank #"+_myId));
+            //MyClient.Send(new WelcomeClientPacket("Tank #" + _myId));
 
             MyClient.instance.udp.Connect(((IPEndPoint)MyClient.instance.tcp.socket.Client.LocalEndPoint).Port);
         }

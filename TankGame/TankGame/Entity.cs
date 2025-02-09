@@ -19,32 +19,19 @@ namespace TankGame
 
         public override void Update()
         {
-            if(smooothing)
-            {
-                smoothPos = Vector2.Lerp(smoothPos, Position, Global.DeltaTime * smoothAmount);
-                if(Rotation - smoothRot < -MathF.PI)
-                {
-                    Rotation += MathF.PI * 2;
-                }
-                if (Rotation - smoothRot > MathF.PI)
-                {
-                    Rotation = MathF.PI * 2;
-                }
-                smoothRot = MathHelper.Lerp(smoothRot,Rotation, Global.DeltaTime * smoothAmount);
-            }
+
         }
 
         public override void Draw()
         {
             if (smooothing)
             {
-                Sprite.Draw(smoothPos, smoothRot - defaultRot, Scale);
+                Sprite.Draw(Position, Rotation - defaultRot, Scale);
             }
             else
             {
                 Sprite.Draw(Position, Rotation - defaultRot,Scale);
             }
-
         }
 
         #region TRANSFORM
@@ -72,20 +59,13 @@ namespace TankGame
 
 
         protected bool smooothing;
-        float smoothAmount = 10;
-        protected Vector2 smoothPos = Vector2.Zero;
-        float smoothRot = 0;
+        float smoothAmount = 20;
         protected float defaultRot;
 
-        public virtual void Move()
-        {
-            Position += Velocity;
-        }
-
-        public void SetPosRot(Vector2 pos, float rot)
+        public virtual void SetPosRot(Vector2 pos, float rot)
         {
             Position = pos;
-            Rotation = rot;
+            Rotation = MathHelper.WrapAngle(rot);
         }
 
         #endregion

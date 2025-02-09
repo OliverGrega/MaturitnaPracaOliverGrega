@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankGame.Physics;
 
 namespace TankGame
 {
@@ -16,6 +17,12 @@ namespace TankGame
         {
             whitePixel = new Texture2D(Global.SpriteBatch.GraphicsDevice, 1, 1);
             whitePixel.SetData(new Color[] { Color.White });
+        }
+
+        public static void DrawCollider(Collider collider, Color color, int width)
+        {
+            Rectangle rect = new Rectangle(new Point((int)(collider.Position.X - collider.HalfSize.X), (int)(collider.Position.Y - collider.HalfSize.Y)), new Point((int)collider.HalfSize.X*2, (int)(collider.HalfSize.Y*2)));
+            DrawRectangle(rect, color, width);
         }
 
         public static void DrawRectangle(Rectangle rect, Color color, int width)

@@ -19,10 +19,12 @@ namespace TankGame
         public static SpriteBatch SpriteBatch { get; set; }
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         public static SpriteFont basicFont;
+        public static TankClient Client { get; set; }
+        public static string GameVersion { get; } = "0.0.1";
 
         private static Dictionary<string, Texture2D> loadedTextures = new Dictionary<string, Texture2D>();
 
-        public const float FIXED_UPDATE_DELTA = (int)(1000 / (float)10);
+        public const float TIME_BETWEEN_TICKS = 1f / 30f;
 
         public static Texture2D LoadTexture(string path)
         {

@@ -22,9 +22,6 @@ namespace PistaNetworkLibrary
 
         public bool isConnected { get { if (tcp.socket == null) return false; else { return tcp.socket.Connected; } } }
 
-        private delegate void PacketHandler(PacketBuilder _packet);
-        private static Dictionary<int, PacketHandler> packetHandlers;
-
         public MyClient()
         {
             instance = this;
@@ -50,7 +47,6 @@ namespace PistaNetworkLibrary
             port = _port;
 
             tcp.Connect();
-
         }
 
         private bool ValidateIPv4(string _ipString)
@@ -289,9 +285,10 @@ namespace PistaNetworkLibrary
 
             private void HandleData(byte[] _data)
             {
+                int packetLength = 0;
                 using(PacketBuilder _packet = new PacketBuilder(_data))
                 {
-                    int packetLength = _packet.ReadInt();
+                    packetLength = _packet.ReadInt();
                     _data = _packet.ReadBytes(packetLength);
                 }
 

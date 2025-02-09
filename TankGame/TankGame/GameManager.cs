@@ -2,10 +2,11 @@
 using PistaNetworkLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TankGame.Networking.Packets.ServerPackets;
+using TankGame.PistaNetworkingLibrary.Packets.ServerPackets;
 using static TankGame.Global;
 
 namespace TankGame
@@ -41,32 +42,41 @@ namespace TankGame
             }
         }
 
-        public void FixedUpdate()
-        {
-            foreach (var player in players.Values)
-            {
-                player.FixedUpdate();
-            }
-        }
-
         public void RemovePlayer(byte id)
         {
-            Destroy(players[id]);
+            players[id].Destroy();
             players.Remove(id);
         }
+
         public void RemoveAllPlayers()
         {
             foreach (Tank player in players.Values)
             {
-                Destroy(player);
+                player.Destroy();
             }
             players.Clear();
         }
+
         public void SpawnPlayer(byte _id, string _username, Vector2 _pos)
         {
             Tank newPlayer = new Tank(_id, _username, _pos);
             players.Add(_id, newPlayer);
-            //Spawn(newPlayer);
+        }
+
+        public void UpdatePlayerState(byte _id, Vector2 _pos, float _rot)
+        {
+            players[_id].SetPosRot(_pos, _rot);
+        }
+
+        public void PlayerShoot(byte _id, Vector2 from, Vector2 to)
+        {
+            players[_id].Shoot(from, to);
+            Spawn?.Invoke(new BulletTrail(from, to));
+        }
+
+        public void UpdatePlayerState(byte _id, StatePayload statePayload)
+        {            
+            players[_id].SyncTransform(statePayload);
         }
     }
 }

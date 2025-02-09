@@ -11,19 +11,21 @@ namespace TankGame.UI
     {
         public string Content { get; }
         public override Vector2 Dimensions { get => Global.basicFont.MeasureString(Content); }
+        private Vector2 Origin => GetCenter(Allignment, Dimensions);
 
-        public Label(string _content, Vector2 _pos, Color _color)
+        public Label(string _content, Vector2 _pos, Color _color, float _scale = 1)
         {
             Content = _content;
             Position = _pos;
             Color = _color;
+            Scale = _scale;
         }
 
         public override void Draw()
         {
             if (Visible)
             {
-                Global.SpriteBatch.DrawString(Global.basicFont,Content,Position,Color, Rotation, Dimensions/2,Scale,0,LayerDepth);
+                Global.SpriteBatch.DrawString(Global.basicFont,Content,Position,Color, Rotation, Origin, Scale,0,LayerDepth);
             }
         }
     }

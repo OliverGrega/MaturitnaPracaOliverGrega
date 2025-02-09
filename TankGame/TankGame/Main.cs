@@ -1,19 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PistaNetworkLibrary;
 using System.Diagnostics;
 using TankGame.Input;
 using TankGame.Scene;
+using TankGame.Networking;
 
 namespace TankGame
 {
     public class Main : Game
     {
-        GameManager gameManager;
-
+        public static Main instance;
         public Main()
         {
+            instance = this;
             Global.GraphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -21,9 +21,9 @@ namespace TankGame
 
         protected override void Initialize()
         {
+            new ContentLoader();
             Display.Init(640,640);
-            base.Initialize();
-            gameManager = new GameManager();
+            base.Initialize();            
         }
 
         protected override void LoadContent()
@@ -32,8 +32,10 @@ namespace TankGame
             Utility.Setup();
             Camera.Setup(Global.SpriteBatch.GraphicsDevice.Viewport);
             Global.basicFont = Content.Load<SpriteFont>("Fonts/pixelfont");
+            Global.Client = new TankClient();
 
             SceneManager.LoadScene(new MenuScene());
+            
 
             //NetworkManager network = new NetworkManager();
             //MyClient client = new MyClient();
@@ -49,52 +51,37 @@ namespace TankGame
 
         private void FixedUpdate()
         {
-            gameManager.FixedUpdate();
+
         }
 
         #endregion
 
+        float packetTimer;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(previousT == 0)
-            {
-                previousT = (float)gameTime.TotalGameTime.TotalMilliseconds;
-            }
-
-            float now = (float)gameTime.TotalGameTime.TotalMilliseconds;
-            float frameTime = now - previousT;
-            if(frameTime > maxFrameTime)
-            {
-                frameTime = maxFrameTime;
-            }
-
-            previousT = now;
-
-            accumulator += frameTime;
-
-            while(accumulator >= Global.FIXED_UPDATE_DELTA)
-            {
-                FixedUpdate();
-                accumulator -= Global.FIXED_UPDATE_DELTA;
-            }
-
-            alpha = (accumulator / Global.FIXED_UPDATE_DELTA);
-
             Global.DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Global.TotalTime = (float)gameTime.TotalGameTime.Milliseconds;
 
+            MyKeyboard.Update();
             MyMouse.Update();
+
+            packetTimer += Global.DeltaTime;
+            if(packetTimer >=1)
+            {
+                NetworkingUtil.ResetTimer();
+                packetTimer = 0;
+            }
 
             ThreadManager.UpdateMain();
             Camera.Update();
             SceneManager.CurrentScene.Update();
-            gameManager.Update();
 
+            if (TankClient.Active.isConnected) ((TankClient)TankClient.Active).Update();
             MyMouse.UpdateOld();
-
+            
             base.Update(gameTime);
         }
 
@@ -105,7 +92,6 @@ namespace TankGame
             Global.SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.Transform);
 
             SceneManager.CurrentScene.Draw();
-            gameManager.Draw();
 
             Global.SpriteBatch.End();
 

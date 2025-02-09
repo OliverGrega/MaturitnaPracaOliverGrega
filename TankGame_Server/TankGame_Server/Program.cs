@@ -1,53 +1,54 @@
-﻿using GameServer.Command;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Numerics;
-using TankGame.Networking.Packets.ServerPackets;
-using PistaNetworkLibrary;
+using TankGame.Networking;
+using TankGame_Server;
+using TankGame_Server.Command;
 
-namespace GameServer
+namespace TankGame_Server
 {
     internal class Program
     {
         private static bool isRunning = false;
         public static CommandHandler commandHandler;
+
+        private static TankServer server;
+
         static void Main(string[] args)
         {
             Console.Title = "Tank Game Server";
-            MyDebugger.OnWrite = Draw.WriteLine;
+            MyDebugger.OnWrite = Draw.Write;
+            new Settings();
             Settings.Init();
+            
             commandHandler = new CommandHandler();
             isRunning = true;
 
-            Server.Joining += OnJoining;
+            MyDebugger.Write("Please enter desired port: ");
+            int desiredPort = Convert.ToInt32(Console.ReadLine());
 
             Thread mainThread = new Thread(new ThreadStart(MainThread));
             mainThread.Start();
 
-            Server.Start(Settings.instance.MaxPlayers, Settings.instance.Port);
+            server = new TankServer(Settings.instance.MaxPlayers, desiredPort);
+            server.SimulateLatency = true;
             while (isRunning)
             {
                 string command = Console.ReadLine();
                 commandHandler.TryParseCommand(command);
             }
-        }        
-
-        static void OnJoining(byte id)
-        {
-            Server.Send(new WelcomeServerPacket(id));
         }
 
         private static void MainThread()
         {
-            Draw.WriteLine($"Main thread started! Running at {Settings.instance.ServerTickRate} ticks per second.");
+            Draw.WriteLine($"Main thread started! Running at {Settings.TICK_RATE} ticks per second.");
             DateTime _nextLoop = DateTime.Now;
             while (isRunning)
             {
                 while (_nextLoop < DateTime.Now)
                 {
-
                     GameLogic.Update();
 
-                    _nextLoop = _nextLoop.AddMilliseconds(Settings.instance.MsPerTick);
+                    _nextLoop = _nextLoop.AddMilliseconds(Settings.MS_PER_TICK);
 
                     if (_nextLoop > DateTime.Now)
                     {

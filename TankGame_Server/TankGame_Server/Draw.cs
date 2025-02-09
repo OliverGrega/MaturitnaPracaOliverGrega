@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer
+namespace TankGame_Server
 {
     public enum DrawFlags
     {
@@ -44,9 +44,9 @@ namespace GameServer
             }
             Console.ForegroundColor = ConsoleColor.White;
         }
-        public static void WriteLine(string _message)
+        public static void Write(string _message)
         {
-           Console.WriteLine($"[{DateTime.Now}] "+_message);
+           Console.Write($"[{DateTime.Now}] "+_message);
         }
         public static void Write(string _message, DrawFlags _flag = DrawFlags.None)
         {

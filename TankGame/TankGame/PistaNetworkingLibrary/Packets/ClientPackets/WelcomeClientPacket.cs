@@ -5,7 +5,7 @@ using PistaNetworkLibrary;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TankGame.Networking.Packets.ClientPackets
+namespace TankGame.PistaNetworkingLibrary.Packets.ClientPackets
 {
     public class WelcomeClientPacket : ClientPacket
     {
@@ -15,7 +15,7 @@ namespace TankGame.Networking.Packets.ClientPackets
 
         public WelcomeClientPacket(string _username)
         {
-            Write(_username);
+            //Write(_username);
         }
 
         public override void Handle(byte _fromClient, PacketBuilder _packet)
@@ -28,11 +28,11 @@ namespace TankGame.Networking.Packets.ClientPackets
             Server.Joined?.Invoke(_fromClient);
         }
 
-        public override void Write(params object[] _data)
+        public override void Write()
         {
             using (PacketBuilder _packet = new PacketBuilder(Id))
             {
-                _packet.Write((string)_data[0]);
+                //_packet.Write((string)_data[0]);
 
                 MyClient.Send(_packet);
             }

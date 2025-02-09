@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TankGame.Networking.Packets.ServerPackets
+namespace TankGame.PistaNetworkingLibrary.Packets.ServerPackets
 {
     public class PlayerPosServerPacket : ServerPacket
     {
@@ -17,7 +17,7 @@ namespace TankGame.Networking.Packets.ServerPackets
 
         public PlayerPosServerPacket(byte id, Vector2 pos, float rot, bool ignoreOwner = true)
         {
-            Write(id, pos, rot,ignoreOwner);
+            Write(id, pos, rot, ignoreOwner);
         }
 
         public override void Handle(PacketBuilder _packet)
@@ -41,7 +41,7 @@ namespace TankGame.Networking.Packets.ServerPackets
                 _packet.Write(rot);
                 if ((bool)_data[3])
                 {
-                    Server.SendAll(_packet,playerId,Channel.UDP);   
+                    Server.SendAll(_packet, playerId, Channel.UDP);
                 }
                 else
                 {

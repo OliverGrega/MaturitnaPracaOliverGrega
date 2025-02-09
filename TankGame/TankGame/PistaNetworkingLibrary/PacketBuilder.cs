@@ -56,7 +56,7 @@ namespace PistaNetworkLibrary
         public PacketBuilder(byte _id)
         {
             buffer = new List<byte>(); // Intitialize buffer
-            readPos = 0; // Set readPos to 0
+            readPos = 0; // Set readPos to 0    
 
             Write(_id); // Write packet id to the buffer
         }
@@ -151,6 +151,12 @@ namespace PistaNetworkLibrary
         /// <summary>Adds an int to the packet.</summary>
         /// <param name="_value">The int to add.</param>
         public void Write(int _value)
+        {
+            buffer.AddRange(BitConverter.GetBytes(_value));
+        }
+        /// <summary>Adds an uint to the packet.</summary>
+        /// <param name="_value">The uint to add.</param>
+        public void Write(uint _value)
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }

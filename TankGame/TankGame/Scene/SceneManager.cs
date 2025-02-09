@@ -12,7 +12,13 @@ namespace TankGame.Scene
 
         public static void LoadScene(IScene scene)
         {
-            scene.Load();
+            scene.Load(null);
+            if (CurrentScene != null) UnloadScene();
+            CurrentScene = scene;
+        }
+        public static void LoadScene(IScene scene, string options)
+        {
+            scene.Load(options);
             if (CurrentScene != null) UnloadScene();
             CurrentScene = scene;
         }

@@ -29,7 +29,6 @@ namespace PistaNetworkLibrary
                 SendUDPData(_toClient, _packet);
             }
         }
-
         public static void SendAll(PacketBuilder _packet, Channel _channel = Channel.TPC)
         {
             if (_channel == Channel.TPC)

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Command
+namespace TankGame_Server.Command
 {
     public class CommandHandler
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Command.Commands
+namespace TankGame_Server.Command.Commands
 {
     internal class ListCommand : ICommand
     {

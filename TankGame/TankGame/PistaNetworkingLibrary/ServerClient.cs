@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Numerics;
-using TankGame.Networking.Packets.ServerPackets;
+using TankGame.PistaNetworkingLibrary.Packets.ServerPackets;
 
 namespace PistaNetworkLibrary
 { 
-    public partial class ServerClient
+    public partial class ConnectedClient
     {
         public static int dataBufferSize = 4096;
         public byte id;
@@ -19,7 +19,7 @@ namespace PistaNetworkLibrary
         public TCP tcp;
         public UDP udp;
 
-        public ServerClient(byte _clientId)
+        public ConnectedClient(byte _clientId)
         {
             id = _clientId;
             tcp = new TCP(id);
@@ -191,7 +191,7 @@ namespace PistaNetworkLibrary
         {
             player = new PlayerInfo(id, _playerName);
 
-            foreach (ServerClient _client in Server.clients.Values)
+            foreach (ConnectedClient _client in Server.clients.Values)
             {
                 if (_client.player != null)
                 {
@@ -201,7 +201,7 @@ namespace PistaNetworkLibrary
                     }
                 }
             }
-            foreach (ServerClient _client in Server.clients.Values)
+            foreach (ConnectedClient _client in Server.clients.Values)
             {
                 if (_client.player != null)
                 {

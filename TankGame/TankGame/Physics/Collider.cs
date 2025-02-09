@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +27,6 @@ namespace TankGame.Physics
         public static Collider GetSum(Collider col, Vector2 halfSize)
         {
             return new Collider(col.Position, col.HalfSize + halfSize);
-        }
-
-        public Rectangle ToRect()
-        {
-            return new Rectangle((Position - HalfSize).ToPoint(), (HalfSize * 2).ToPoint());
         }
     }
 }

@@ -22,13 +22,13 @@ namespace TankGame
 
         public StackedSprite(string texturePath, float stackOffset, Rectangle[] stacks)
         {
-            Texture = Global.LoadTexture(texturePath);
+            Texture = ContentLoader.LoadTexture(texturePath);
             StackOffset = stackOffset;
             this.stacks = stacks;
         }
         public StackedSprite(string texturePath, float stackOffset)
         {
-            Texture = Global.LoadTexture(texturePath);
+            Texture = ContentLoader.LoadTexture(texturePath);
             StackOffset = stackOffset;
         }
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TankGame.Networking.Packets.ServerPackets
+namespace TankGame.PistaNetworkingLibrary.Packets.ServerPackets
 {
     public class SpawnPlayerServerPacket : ServerPacket
     {
@@ -14,7 +14,7 @@ namespace TankGame.Networking.Packets.ServerPackets
         {
 
         }
-        public SpawnPlayerServerPacket(byte _toClient,byte _newPlayerId, string _username, Vector2 _spawn)
+        public SpawnPlayerServerPacket(byte _toClient, byte _newPlayerId, string _username, Vector2 _spawn)
         {
             Write(_toClient, _newPlayerId, _username, _spawn);
         }

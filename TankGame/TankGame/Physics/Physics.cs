@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace TankGame.Physics
             }
             else if (ray.Position.X <= min.X || ray.Position.X >= max.X)
             {
-                return hit;
+                return hit; 
             }
 
             if (ray.Direction.Y != 0)

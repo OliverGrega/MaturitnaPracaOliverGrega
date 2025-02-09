@@ -13,7 +13,7 @@ namespace PistaNetworkLibrary
         protected byte Id => NetworkManager.GetClientPacketId(this);
 
         /// <summary>Writes packet on the client</summary>
-        public abstract void Write(params object[] _data);
+        public abstract void Write();
 
         /// <summary>Reads packet on the server</summary>
         public abstract void Handle(byte _fromClient, PacketBuilder _packet);

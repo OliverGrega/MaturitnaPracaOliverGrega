@@ -24,7 +24,7 @@ namespace PistaNetworkLibrary
             }
         }
 
-        public static Dictionary<int, ServerClient> clients = new Dictionary<int, ServerClient>();
+        public static Dictionary<int, ConnectedClient> clients = new Dictionary<int, ConnectedClient>();
         public delegate void PacketHandler(int _fromClient, PacketBuilder _packet);
         public static Dictionary<int, PacketHandler> packetHandlers;
 
@@ -121,7 +121,7 @@ namespace PistaNetworkLibrary
         {
             for (int i = 1; i <= MaxPlayer; i++)
             {
-                clients.Add(i, new ServerClient((byte)i));
+                clients.Add(i, new ConnectedClient((byte)i));
             }
             var networkManager = new NetworkManager();
             MyDebugger.WriteLine("Initialized server...");

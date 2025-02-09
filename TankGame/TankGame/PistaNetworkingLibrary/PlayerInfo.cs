@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TankGame;
-using TankGame.Networking.Packets.ServerPackets;
+using TankGame.PistaNetworkingLibrary.Packets.ServerPackets;
 using TankGame.Physics;
 
 namespace PistaNetworkLibrary
@@ -30,50 +30,23 @@ namespace PistaNetworkLibrary
 
         public const float ROLLBACK_DISTANCE = 2;
 
-        public Collider serverCollider => new Collider(Position, new Vector2(8, 8) * 2.5f);
+        public Collider serverCollider => new Collider(Position.ToNumerics(), new Vector2(16, 16).ToNumerics());
 
-        public void HandleMovementInput(byte input)
-        {
-            Vector2 prevPos = Position;
-            float prevRot = Rotation;
-
-            if (input.Get(7))
+        public void Simulate()
+        {            
+            if (speed < 0)
             {
-                Rotation -= 0.1f;
-                MathHelper.WrapAngle(Rotation);
-            }
-            if (input.Get(6))
-            {
-                Rotation += 0.1f;
-                MathHelper.WrapAngle(Rotation);
-            }
-
-            if (input.Get(5))
-            {
-                speed = MathF.Min(speed + Tank.acceleration, Tank.maxSpeed);
-                Velocity = Forward * speed;
-            }
-            else if (input.Get(4))
-            {
-                speed = Math.Max(speed - Tank.acceleration, -Tank.maxSpeed);
-                Velocity = Forward * speed;
+                speed = Math.Min(speed + Tank.decceleration, 0);
             }
             else
             {
-                if (speed < 0)
-                {
-                    speed = Math.Min(speed + Tank.decceleration, 0);
-                }
-                else
-                {
-                    speed = Math.Max(speed - Tank.decceleration, 0);
-                }
-                Velocity = Forward * speed;
+                speed = Math.Max(speed - Tank.decceleration, 0);
             }
+            Velocity = Forward * speed;
 
-            TankGame.Physics.Ray ray = new TankGame.Physics.Ray(Position, Velocity);
-            
-            for(int i = 1; i <= Server.clients.Count; i++)
+            TankGame.Physics.Ray ray = new TankGame.Physics.Ray(Position.ToNumerics(), Velocity.ToNumerics());
+
+            for (int i = 1; i <= Server.clients.Count; i++)
             {
                 if (Server.clients[i].player == null) continue;
                 if (Server.clients[i].player == this) continue;
@@ -92,12 +65,17 @@ namespace PistaNetworkLibrary
                         Velocity.Y = 0;
                     }
                 }
-            }
-            Position += Velocity;
-            if (prevPos != Position || prevRot != Rotation)
+            }            
+            if(Position + Velocity != Position)
             {
                 Server.Send(new PlayerPosServerPacket(Id, Position, Rotation, false));
             }
+            Position += Velocity;
+        }
+
+        public void HandleMovementInput(byte input)
+        {
+                      
         }
 
         public void MoveRot(Vector2 move, float rot)

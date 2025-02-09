@@ -56,10 +56,6 @@ namespace TankGame.UI
                 Color = Color.White;
             }
             Scale = MathHelper.Lerp(Scale, goalSize, Global.DeltaTime * 10);
-            if(Hover() && MyMouse.LeftButtonDown())
-            {
-
-            }
         }
 
         public override void Draw()
