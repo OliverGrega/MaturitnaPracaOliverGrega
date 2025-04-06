@@ -39,11 +39,12 @@ namespace TankGame_Server
                     case ClientPackets.HandshakeReceived:
 
                         string username = _packet.ReadString();
-                        Console.WriteLine("Player confirmed handshake with username: " +username);
+                        MyDebugger.WriteLine("Player confirmed handshake with username: " +username);
                         GameLogic.SpawnPlayer(fromClient, username);
+                        ServerSend.SendSettings(fromClient);
                         foreach(var ply in GameLogic.players)
                         {
-                            using (PacketBuilder syncPlayers = new PacketBuilder((byte)ServerPackets.SpawnPlayer))
+                            using (PacketBuilder syncPlayers = new PacketBuilder((byte)ServerPackets.PlayerJoined))
                             {
                                 syncPlayers.Write(ply.Key);
                                 syncPlayers.Write(ply.Value.username);
@@ -52,7 +53,7 @@ namespace TankGame_Server
                             }
                         }
 
-                        using (PacketBuilder syncPlayers = new PacketBuilder((byte)ServerPackets.SpawnPlayer))
+                        using (PacketBuilder syncPlayers = new PacketBuilder((byte)ServerPackets.PlayerJoined))
                         {
                             syncPlayers.Write(fromClient);
                             syncPlayers.Write(username);

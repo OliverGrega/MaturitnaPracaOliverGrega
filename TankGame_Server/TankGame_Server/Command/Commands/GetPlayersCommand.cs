@@ -22,10 +22,9 @@ namespace TankGame_Server.Command.Commands
                 return false;
             }
             finishedResponse += $"Players [{TankServer.Active.ConnectedPlayers}/{Settings.instance.MaxPlayers}]";
-            foreach (var n in TankServer.Active.clients)
+            foreach (var n in GameLogic.players)
             {
-                if (n.Value.tcp.socket == null) continue;
-                //finishedResponse += $"\n[{n.Key}] {n.Value.player.Username}";
+                finishedResponse += $"\n[{n.Key}] {n.Value.username}";
             }
             response = finishedResponse;
             return true;

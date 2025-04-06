@@ -90,7 +90,7 @@ namespace TankGame.Networking.Server
                 byte[] data = udpListener.EndReceive(_result, ref clientEndPoint);
                 udpListener.BeginReceive(UDPReceiveCallback, null);
 
-                if (data.Length < 4)
+                if (data.Length < 4 || data == null)
                 {
                     return;
                 }
@@ -111,6 +111,11 @@ namespace TankGame.Networking.Server
                         clients[clientId].udp.HandleData(_packet);
                     }
                 }
+            }
+            catch(SocketException ex) when (ex.SocketErrorCode == SocketError.ConnectionReset)
+            {
+                MyDebugger.WriteLine($"UDP Clients Disconnects: {ex.Message}");
+                udpListener.BeginReceive(UDPReceiveCallback, null);
             }
             catch (Exception _ex)
             {

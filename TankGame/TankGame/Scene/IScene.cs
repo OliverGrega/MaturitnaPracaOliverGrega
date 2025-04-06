@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace TankGame.Scene
         public void Unload();
         public void Update();
         public void Draw();
+        public Color Color { get; set; }
     }
 }

@@ -14,16 +14,56 @@ namespace TankGame_Server
     {
         public static Dictionary<byte, S_Player> players = new Dictionary<byte, S_Player>();
         public static uint currentTick;
+        public static Collider[] borders;
+
+        public static void CreateMap()
+        {
+            borders = new Collider[4]
+            {
+                new Collider(new Vector2(0,((Settings.instance.MapHeight)/2)+16), new Vector2(Settings.instance.MapWidth/2,8)),
+                new Collider(new Vector2(0,((-Settings.instance.MapHeight)/2)-16), new Vector2(Settings.instance.MapWidth/2,8)),
+                new Collider(new Vector2(((Settings.instance.MapWidth/2)+16),0),  new Vector2(8,Settings.instance.MapHeight/2)),
+                new Collider(new Vector2(((-Settings.instance.MapWidth/2)-16),0),  new Vector2(8,Settings.instance.MapHeight/2)),
+            };
+
+            nextRoundTick = currentTick + (uint)Settings.instance.RoundDurationInTicks;
+        }
+
+        private static uint nextRoundTick;
+
         public static void Update()
         {
             ThreadManager.UpdateMain();
             currentTick++;
+            if(currentTick >= nextRoundTick)
+            {
+                EndRound();
+            }
+
             foreach(var player in players.Values)
             {
                 player.HandleServerTick(currentTick);
             }
         }
 
+        public static void EndRound()
+        {
+            nextRoundTick = currentTick + (uint)Settings.instance.RoundDurationInTicks;
+            if (players.Count != 0)
+            {
+                var plysByKills = players.Values.OrderBy(x => x.Kills).ToArray()[players.Values.Count - 1];
+                ServerSend.RoundEnded(plysByKills.owner, plysByKills.Kills);
+            }
+            else
+            {
+                ServerSend.RoundEnded(0, 0);
+            }
+
+            foreach(var n in players.Values)
+            {
+                n.Respawn();
+            }
+        }
 
         public static void HandleInput(byte _playerId, InputPayload inputPayload)
         {
@@ -33,7 +73,7 @@ namespace TankGame_Server
 
         public static void PlayerShoot(byte attacker, uint attackTick)
         {
-            players[attacker].Shoot(attackTick);
+            players[attacker].Shoot(attackTick,attacker);
         }
 
         public static void SpawnPlayer(byte ownerId, string username)
@@ -48,6 +88,7 @@ namespace TankGame_Server
         {
             if (!players.ContainsKey(ownerId)) return;
             players.Remove(ownerId);
+            ServerSend.DespawnPlayer(ownerId);
         }
 
         public static S_Player Get(byte id)

@@ -21,6 +21,24 @@ namespace TankGame
             CheckSettings();
             InitTextures();
             InitSounds();
+            string[] loadedPackages = Directory.GetDirectories("Content/");
+
+            for (int i = 0; i  <loadedPackages.Length; i++)
+            {
+                loadedPackages[i] = loadedPackages[i].Replace(@"\", @"/");
+
+                string[] files = Directory.GetFiles(loadedPackages[i], ".", SearchOption.AllDirectories);
+                for (int j = 0; j < files.Length; j++)
+                {
+                    files[j] = files[j].Replace(@"\", @"/");
+                    var split = files[j].Split("/");
+                    if (split[split.Length - 1].Split(".")[1] == "png") LoadTexture(files[j]);
+                    else if (split[split.Length - 1].Split(".")[1] == "mp3") LoadSoundMp3(files[j]);
+                }
+            }
+
+            //InitTextures();
+            //InitSounds();
         }
 
         #region TEXTURES
@@ -122,7 +140,7 @@ namespace TankGame
                 stream = new FileStream(path, FileMode.Open);
             }
             SoundEffect eff = SoundEffect.FromStream(stream);
-            Debug.WriteLine($"Loaded texture at {path}.");
+            Debug.WriteLine($"Loaded sound at {path}.");
             stream.Dispose();
             return eff;
         }

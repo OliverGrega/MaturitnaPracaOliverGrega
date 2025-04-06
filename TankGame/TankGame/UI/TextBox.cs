@@ -55,8 +55,8 @@ namespace TankGame.UI
 
             goalSize = Scale + 0.2f;
 
-            cursorTexture = Global.LoadTexture("Content/Textures/UI/FlashingCursor.png");
-            backgroundTexture = Global.LoadTexture("Content/Textures/UI/Square.png");
+            cursorTexture = ContentLoader.LoadTexture("Content/Textures/UI/FlashingCursor.png");
+            backgroundTexture = ContentLoader.LoadTexture("Content/Textures/UI/Square.png");
 
             Main.instance.Window.TextInput += GetKeyboardInput;
         }

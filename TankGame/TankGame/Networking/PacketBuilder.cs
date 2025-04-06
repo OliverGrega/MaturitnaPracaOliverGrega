@@ -13,12 +13,16 @@ namespace TankGame.Networking
     {
         Handshake,
         PlayerPos,
-        SpawnPlayer,
-        DespawnPlayer,
+        PlayerJoined,
+        PlayerLeft,
         PlayerShoot,
         PlayerHit,
         PlayerReload,
-        SyncServerSettings
+        PlayerKilled,
+        SyncServerSettings,
+        PlayerRespawn,
+        RoundEnd,
+        NewRound
     }
 
     /// <summary>Sent from client to server.</summary>
@@ -146,6 +150,12 @@ namespace TankGame.Networking
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }
+        /// <summary>Adds a ushort to the packet.</summary>
+        /// <param name="_value">The ushort to add.</param>
+        public void Write(ushort _value)
+        {
+            buffer.AddRange(BitConverter.GetBytes(_value));
+        }
         /// <summary>Adds an int to the packet.</summary>
         /// <param name="_value">The int to add.</param>
         public void Write(int _value)
@@ -170,6 +180,7 @@ namespace TankGame.Networking
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }
+
         /// <summary>Adds a bool to the packet.</summary>
         /// <param name="_value">The bool to add.</param>
         public void Write(bool _value)
@@ -254,6 +265,26 @@ namespace TankGame.Networking
             else
             {
                 throw new Exception("Could not read value of type 'short'!");
+            }
+        }
+        /// <summary>Reads a short from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public ushort ReadUshort(bool _moveReadPos = true)
+        {
+            if (buffer.Count > readPos)
+            {
+                // If there are unread bytes
+                ushort _value = BitConverter.ToUInt16(readableBuffer, readPos); // Convert the bytes to a short
+                if (_moveReadPos)
+                {
+                    // If _moveReadPos is true and there are unread bytes
+                    readPos += 2; // Increase readPos by 2
+                }
+                return _value; // Return the short
+            }
+            else
+            {
+                throw new Exception("Could not read value of type 'ushort'!");
             }
         }
 

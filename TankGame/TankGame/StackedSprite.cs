@@ -15,7 +15,7 @@ namespace TankGame
         private Rectangle[] stacks;
         public float StackOffset { get; set; }
         public Vector2 Origin { get => stacks[0].Size.ToVector2() / 2; }
-        public float Depth { get; set; } = 0.1f;
+        public float Depth { get; set; } = 0.5f;
 
         public bool HasTexture { get =>  Texture != null; }
         public Rectangle DestRect { get; private set; }

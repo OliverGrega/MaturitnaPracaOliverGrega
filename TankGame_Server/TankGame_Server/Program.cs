@@ -19,7 +19,7 @@ namespace TankGame_Server
             MyDebugger.OnWrite = Draw.Write;
             new Settings();
             Settings.Init();
-            
+            GameLogic.CreateMap();
             commandHandler = new CommandHandler();
             isRunning = true;
 

@@ -56,6 +56,7 @@ namespace TankGame
         public static Entity Target { get; set; }
         static float desiredZoom;
         static Vector2 desiredCenter;
+        static float cameraSpeed = 5;
 
         public static void Setup(Viewport newViewport)
         {
@@ -70,29 +71,14 @@ namespace TankGame
 
         public static void Update()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.C))
-            {
-                Zoom += 0.01f;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.V))
-            {
-                Zoom -= 0.01f;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-            {
-                Rotation += 0.01f;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.T))
-            {
-                Rotation -= 0.01f;
-            }
-
             if (Target != null) center = new Vector2(Target.Position.X, Target.Position.Y);
             else center = new Vector2(Display.ScreenWidth / 2, Display.ScreenHeight / 2);
 
             desiredZoom = MathHelper.Lerp(desiredZoom, zoom, Global.DeltaTime * 10);
 
-            transform = Matrix.CreateTranslation(new Vector3(-center.X, -center.Y, 0)) *
+            desiredCenter = Vector2.Lerp(desiredCenter,center, Global.DeltaTime * cameraSpeed);
+
+            transform = Matrix.CreateTranslation(new Vector3(-desiredCenter.X, -desiredCenter.Y, 0)) *
                                                  Matrix.CreateRotationZ(rotation) *
                                                  Matrix.CreateScale(new Vector3((int)desiredZoom, (int)desiredZoom, 1)) *
                                                  Matrix.CreateTranslation(new Vector3(Display.ScreenWidth / 2, Display.ScreenHeight / 2, 0));

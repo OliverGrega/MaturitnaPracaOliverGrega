@@ -5,6 +5,7 @@ using System.Diagnostics;
 using TankGame.Input;
 using TankGame.Scene;
 using TankGame.Networking;
+using TankGame.Particles;
 
 namespace TankGame
 {
@@ -21,14 +22,15 @@ namespace TankGame
 
         protected override void Initialize()
         {
-            new ContentLoader();
             Display.Init(640,640);
+            new Settings();
             base.Initialize();            
         }
 
         protected override void LoadContent()
         {
             Global.SpriteBatch = new SpriteBatch(GraphicsDevice);
+            new ContentLoader();
             Utility.Setup();
             Camera.Setup(Global.SpriteBatch.GraphicsDevice.Viewport);
             Global.basicFont = Content.Load<SpriteFont>("Fonts/pixelfont");
@@ -41,20 +43,6 @@ namespace TankGame
             //MyClient client = new MyClient();
             //MyClient.instance.TryToConnect("127.0.0.1:7777");
         }
-
-        #region FIXEDUPDATE
-
-        private float previousT = 0;
-        private float accumulator = 0;
-        private float maxFrameTime = 250;
-        private float alpha = 0;
-
-        private void FixedUpdate()
-        {
-
-        }
-
-        #endregion
 
         float packetTimer;
         protected override void Update(GameTime gameTime)
@@ -79,6 +67,8 @@ namespace TankGame
             Camera.Update();
             SceneManager.CurrentScene.Update();
 
+            ParticleManager.Update();
+
             if (TankClient.Active.isConnected) ((TankClient)TankClient.Active).Update();
             MyMouse.UpdateOld();
             
@@ -87,11 +77,13 @@ namespace TankGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Wheat);
+            GraphicsDevice.Clear(SceneManager.CurrentScene.Color);
 
             Global.SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Camera.Transform);
 
             SceneManager.CurrentScene.Draw();
+
+            ParticleManager.Draw();
 
             Global.SpriteBatch.End();
 

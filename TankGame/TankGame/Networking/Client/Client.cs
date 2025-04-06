@@ -48,6 +48,7 @@ namespace TankGame.Networking.Client
             udp = new UDP();
 
             isConnected = true;
+            OnConnecting();
             tcp.Connect();
         }
 

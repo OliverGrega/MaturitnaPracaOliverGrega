@@ -13,6 +13,7 @@ namespace TankGame.Scene
     internal class MenuScene : IScene
     {
         public List<GameObject> objects { get; set; }
+        public Color Color { get; set; } = Color.Wheat;
 
         StackedSprite tankIcon;
         float tankIconRot;
@@ -22,7 +23,7 @@ namespace TankGame.Scene
         public void Load(string msg)
         {
             objects = new List<GameObject>();
-            tankIcon = new StackedSprite("Content/Textures/Tank.png", 4);
+            tankIcon = new StackedSprite("Content/Textures/Tank.png", 6);
             tankIcon.ChangeStacks(new Rectangle[]
             {
                 new Rectangle(16,0,16,16),
@@ -31,6 +32,8 @@ namespace TankGame.Scene
                 new Rectangle(16,16,16,16),
                 new Rectangle(32,16,16,16),
             });
+
+            Camera.Target = null;
 
             if(msg != null )
             {
@@ -84,7 +87,7 @@ namespace TankGame.Scene
                 }
             });
 
-            objects.Add(new Building(new Vector2(150, 150)));
+            //objects.Add(new Building(new Vector2(150, 150)));
 
             objects.Add(new Label($"Ver. {Global.GameVersion}", new Vector2(0,Display.ScreenHeight-25),Color.White,0.5f));
         }
@@ -109,7 +112,7 @@ namespace TankGame.Scene
         }
         public void Draw()
         {            
-            tankIcon.Draw(new Vector2(Display.ScreenWidth * 0.75f, Display.ScreenHeight * 0.75f), tankIconRot, Vector2.One * 4, Color.Red);
+            tankIcon.Draw(new Vector2(Display.ScreenWidth * 0.75f, Display.ScreenHeight * 0.75f), tankIconRot, Vector2.One * 4, Color.White);
 
             for (int i = 0; i < objects.Count; i++)
             {

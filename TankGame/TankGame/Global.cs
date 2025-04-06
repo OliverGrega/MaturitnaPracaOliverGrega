@@ -26,38 +26,14 @@ namespace TankGame
 
         public const float TIME_BETWEEN_TICKS = 1f / 30f;
 
-        public static Texture2D LoadTexture(string path)
+        public static float RandomFloat(float min, float max)
         {
-            if(loadedTextures.ContainsKey(path))
-            {
-                return loadedTextures[path];
-            }
-            else
-            {
-                loadedTextures.Add(path, LoadTexturePng(path));
-                return loadedTextures[path];
-            }
+            return (float)(Random.Shared.NextDouble() * (max - min) + min);
         }
 
-        private static Texture2D LoadTexturePng(string path)
+        public static void PlaySound(string soundId, float volume = 1, float minPitch = 0, float maxPitch = 0)
         {
-            FileStream stream;
-            if (!File.Exists(path))
-            {
-
-                Debug.WriteLine($"Error: Could not find texture at {path}.");
-                stream = new FileStream("Content/MissingTexture.png", FileMode.Open);
-            }
-            else
-            {
-                stream = new FileStream(path, FileMode.Open);
-            }
-
-            Texture2D tex = Texture2D.FromStream(SpriteBatch.GraphicsDevice, stream);
-            Debug.WriteLine($"Loaded texture at {path}.");
-            stream.Dispose();
-            return tex;
+            ContentLoader.LoadSound(soundId).Play(volume, RandomFloat(minPitch, maxPitch), 0);
         }
-
     }
 }

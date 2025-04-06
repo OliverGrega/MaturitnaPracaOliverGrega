@@ -32,5 +32,11 @@ namespace TankGame.Networking
             }
             return false;
         }
+
+        public void Reset()
+        {
+            timer = 0;
+            currentTick = 0;
+        }
     }
 }
