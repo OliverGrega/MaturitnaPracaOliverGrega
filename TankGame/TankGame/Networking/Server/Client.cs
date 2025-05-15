@@ -116,7 +116,7 @@ namespace TankGame.Networking.Server
                 {
                     byte[] packedBytes = receivedData.ReadBytes(packetLength);
 
-                    if(Server.Active.SimulateLatency) Task.Run(async () => { await Task.Delay(Server.Active.Latency); ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packedBytes, packetLength,id, Channel.TCP)); });
+                    if (Server.Active.SimulateLatency) Task.Run(async () => { await Task.Delay(Server.Active.Latency); ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packedBytes, packetLength, id, Channel.TCP)); });
                     else ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packedBytes, packetLength, id, Channel.TCP));
 
                     packetLength = 0;
@@ -170,7 +170,7 @@ namespace TankGame.Networking.Server
                 int packetLength = _packetData.ReadInt();
                 byte[] packetBytes = _packetData.ReadBytes(packetLength);
 
-                if(Server.Active.SimulateLatency) Task.Run(async () => { await Task.Delay(Server.Active.Latency); ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packetBytes, packetLength, id, Channel.UDP)); });
+                if (Server.Active.SimulateLatency) Task.Run(async () => { await Task.Delay(Server.Active.Latency); ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packetBytes, packetLength, id, Channel.UDP)); });
                 else ThreadManager.ExecuteOnMainThread(() => Server.Active.OnMessage(packetBytes, packetLength, id, Channel.UDP));
             }
 

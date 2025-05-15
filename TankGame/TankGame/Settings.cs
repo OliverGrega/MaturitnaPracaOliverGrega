@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace TankGame
         public static void Load(string jsonString)
         {
             instance = JsonSerializer.Deserialize<Settings>(jsonString);
+            Debug.WriteLine(instance.MapWidth);
             GameManager.UpdateBounds();
         }
 

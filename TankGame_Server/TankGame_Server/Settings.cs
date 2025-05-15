@@ -38,7 +38,6 @@ namespace TankGame_Server
         }
         public static void Init()
         {
-            Create();
             if (File.Exists("settings.json"))
             {
                 Load();

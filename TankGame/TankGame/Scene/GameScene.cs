@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace TankGame.Scene
         public List<GameObject> objects { get; set; }
         public Color Color { get; set; } = Color.DarkGreen;
 
-        private GameManager gameManager;    
+        private GameManager gameManager;
+
+        private Texture2D backgroundTexture;
 
         public void Load(string msg)
         {
@@ -21,6 +24,7 @@ namespace TankGame.Scene
             GameManager.Destroy += Despawn;
             objects = new List<GameObject>();
             gameManager = new GameManager();
+            backgroundTexture = ContentLoader.LoadTexture("Content/Textures/Background.png");
         }
 
         public void Spawn(object obj)
@@ -58,6 +62,8 @@ namespace TankGame.Scene
         {
             gameManager.Draw(); 
             TankClient.DrawDebug();
+            Global.SpriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+
             for (int i = 0; i < objects.Count; i++)
             {
                 objects[i].Draw();

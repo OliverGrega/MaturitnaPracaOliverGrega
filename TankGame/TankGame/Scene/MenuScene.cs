@@ -76,7 +76,7 @@ namespace TankGame.Scene
             };
             objects.Add(serverIpBox);
 
-            objects.Add(new TextBox(21, new Vector2((Display.ScreenWidth * 0.75f) - (80 * 0.7f), (Display.ScreenHeight * 0.75f) - (75)), new Vector2(200, 50), Color.White, 0.5f)
+            objects.Add(new TextBox(21, new Vector2((Display.ScreenWidth * 0.75f) - (80 * 0.7f), (Display.ScreenHeight * 0.75f) - (120)), new Vector2(200, 50), Color.White, 0.5f)
             {
                 Content = ContentLoader.loadedData.PlayerName,
                 HoverSize = 0.6f,

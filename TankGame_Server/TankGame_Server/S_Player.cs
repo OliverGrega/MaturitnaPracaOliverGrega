@@ -153,6 +153,7 @@ namespace TankGame_Server
             if (isReloading) return;
             Vector2 from = position;
             Vector2 to = (Forward * Settings.instance.PlayerShootRange);
+            MyDebugger.WriteLine($"Trying to shoot");
             Vector2 hitPoint = Vector2.Zero;
             foreach (var n in GameLogic.players.Values)
             {

@@ -366,13 +366,11 @@ namespace TankGame
 
             if (!IsOwner)
             {
-                Utility.DrawCollider(tankCollider, Color.Red, 1);
                 Sprite.Draw(Position, Rotation - defaultRot, Scale, Color.Red);
             }
             else
             {
                 Sprite.Draw(Position, Rotation - defaultRot, Scale, Color.White);
-                Utility.DrawCollider(tankCollider, Color.LightGreen, 1);
             }
 
             Global.SpriteBatch.DrawString(Global.basicFont,
@@ -384,6 +382,20 @@ namespace TankGame
                 0.5f,
                 0,
                 0.8f);
+
+            if (TankClient.debug)
+            {
+                if (!IsOwner)
+                {
+                    Utility.DrawCollider(tankCollider, Color.Red, 1);
+                }
+                else
+                {
+                    Utility.DrawCollider(tankCollider, Color.LightGreen, 1);
+                }
+            }
+
+
 
             if (!IsOwner) return;
 

@@ -80,7 +80,7 @@ namespace TankGame
             if(tick < newTick) timer.currentTick = newTick;
         }
 
-        private static bool debug = false;
+        public static bool debug = false;
         public static void DrawDebug()
         {
             if (MyKeyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Tab))

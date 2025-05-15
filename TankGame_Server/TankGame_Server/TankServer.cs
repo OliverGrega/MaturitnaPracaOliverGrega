@@ -15,6 +15,7 @@ namespace TankGame_Server
     {
         public TankServer(int _maxPlayers, int _port) : base(_maxPlayers, _port)
         {
+            SimulateLatency = false;
         }
 
         public override void OnConnected(Socket socket, Client client)
