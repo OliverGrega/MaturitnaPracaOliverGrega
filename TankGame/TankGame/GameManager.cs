@@ -149,10 +149,10 @@ namespace TankGame
         {
             borders = new Collider[4]
             {
-                new Collider(new Vector2(0,((Settings.instance.MapHeight)/2)+16).ToNumerics(), new Vector2(Settings.instance.MapWidth/2,8).ToNumerics()),
-                new Collider(new Vector2(0,((-Settings.instance.MapHeight)/2)-16).ToNumerics(), new Vector2(Settings.instance.MapWidth/2,8).ToNumerics()),
-                new Collider(new Vector2(((Settings.instance.MapWidth/2)+16),0).ToNumerics(),  new Vector2(8,Settings.instance.MapHeight/2).ToNumerics()),
-                new Collider(new Vector2(((-Settings.instance.MapWidth/2)-16),0).ToNumerics(),  new Vector2(8,Settings.instance.MapHeight/2).ToNumerics()),
+                new Collider(new Vector2(0,((Settings.instance.MapHeight)/2)).ToNumerics(), new Vector2(Settings.instance.MapWidth/2,8).ToNumerics()),
+                new Collider(new Vector2(0,((-Settings.instance.MapHeight)/2)).ToNumerics(), new Vector2(Settings.instance.MapWidth/2,8).ToNumerics()),
+                new Collider(new Vector2(((Settings.instance.MapWidth/2)),0).ToNumerics(),  new Vector2(8,Settings.instance.MapHeight/2).ToNumerics()),
+                new Collider(new Vector2(((-Settings.instance.MapWidth/2)),0).ToNumerics(),  new Vector2(8,Settings.instance.MapHeight/2).ToNumerics()),
             };
         }
     }

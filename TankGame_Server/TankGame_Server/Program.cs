@@ -31,6 +31,7 @@ namespace TankGame_Server
 
             server = new TankServer(Settings.instance.MaxPlayers, desiredPort);
             server.SimulateLatency = true;
+
             while (isRunning)
             {
                 string command = Console.ReadLine();

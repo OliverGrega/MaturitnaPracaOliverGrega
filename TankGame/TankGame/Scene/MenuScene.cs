@@ -23,7 +23,7 @@ namespace TankGame.Scene
         public void Load(string msg)
         {
             objects = new List<GameObject>();
-            tankIcon = new StackedSprite("Content/Textures/Tank.png", 6);
+            tankIcon = new StackedSprite("Content/Textures/Tank.png", 8);
             tankIcon.ChangeStacks(new Rectangle[]
             {
                 new Rectangle(16,0,16,16),

@@ -58,11 +58,13 @@ namespace TankGame.Scene
             }
         }
 
+        Rectangle backgroundRect => new Rectangle(-Settings.instance.MapWidth / 2, -Settings.instance.MapHeight / 2, Settings.instance.MapWidth, Settings.instance.MapHeight);
+
         public void Draw()
         {
             gameManager.Draw(); 
             TankClient.DrawDebug();
-            Global.SpriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+            Global.SpriteBatch.Draw(backgroundTexture, backgroundRect, Color.White);
 
             for (int i = 0; i < objects.Count; i++)
             {
